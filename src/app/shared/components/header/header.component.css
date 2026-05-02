@@ -1,0 +1,44 @@
+.main-header {
+  background-color: #D80200;
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  max-width: 120%;
+  /* Permite um pouco mais de ganho se a imagem tiver bordas */
+  max-height: 120%;
+  object-fit: contain;
+  position: relative;
+  left: -2px;
+  /* Ajuste fino horizontal */
+  top: 1px;
+  /* Ajuste fino vertical */
+}
+
+h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  margin-left: -5px;
+  /* Puxa o texto para mais perto, compensando o espaço na imagem */
+  margin-top: 10px;
+}

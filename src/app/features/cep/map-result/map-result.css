@@ -1,0 +1,44 @@
+.result-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: auto;
+}
+
+.result-header {
+  margin-bottom: 20px;
+}
+
+.result-header h2 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.result-header p {
+  color: #666;
+  margin-top: 0;
+}
+
+.btn-voltar {
+  background: none;
+  border: none;
+  color: #D80200;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.btn-voltar:hover {
+  text-decoration: underline;
+}
+
+.map-wrapper {
+  height: 600px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}

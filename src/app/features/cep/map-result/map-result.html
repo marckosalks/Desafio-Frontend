@@ -1,0 +1,12 @@
+<app-header></app-header>
+<main class="result-container">
+  <div class="result-header">
+    <button class="btn-voltar" (click)="voltar()">← Voltar</button>
+    <h2>Agência mais próxima</h2>
+    <p>Mostrando resultados para: <strong>{{ endereco }}</strong></p>
+  </div>
+
+  <div class="map-wrapper ">
+    <app-map></app-map>
+  </div>
+</main>

@@ -1,59 +1,80 @@
-# EncontreUmaAgencia
+# Entendendo o Fluxo do Mapa (Ponta a Ponta)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+Aqui está a análise completa e detalhada de como a sua funcionalidade de busca de CEP com renderização no mapa está estruturada e como ela funciona "debaixo dos panos".
 
-## Development server
+> [!NOTE]
+> Essa funcionalidade integra o seu frontend em Angular com uma API própria (que busca CEP) e uma API de mapas aberta (Nominatim + Leaflet).
 
-To start a local development server, run:
+## 1. A Tela Principal (`CepSearch`)
 
-```bash
-ng serve
+O fluxo começa na tela `cep-search.html`.
+Quando o usuário entra na rota `/buscar-cep`, o Angular carrega o componente `CepSearch`.
+
+Na tela, temos um campo de texto (`input`) e um botão:
+
+```html
+<input type="text" #cepInput placeholder="Digite o CEP" />
+<button (click)="pesquisarCep(cepInput.value)">Buscar no Mapa</button>
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Quando você clica em "Buscar no Mapa", o valor digitado é passado para o método `pesquisarCep(cep)` dentro do arquivo `cep-search.ts`.
 
-## Code scaffolding
+## 2. A Comunicação com a API (`CepService`)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+No arquivo `cep-search.ts`, o método `pesquisarCep` faz o seguinte:
+Ele chama o seu `CepService`, que foi injetado através do `constructor`.
 
-```bash
-ng generate component component-name
+O `CepService` faz uma requisição HTTP para a sua API Backend local:
+`GET http://localhost:8080/v1/consulta/{cep}`
+
+Essa API retorna os detalhes do CEP, como o **Logradouro** (nome da rua) e a **Localidade** (cidade).
+
+## 3. Conversão de Endereço em Coordenadas (Geocodificação)
+
+> [!IMPORTANT]
+> **Por que isso é necessário?** Bibliotecas de mapa (como o Leaflet ou Google Maps) não desenham pontos usando texto (ex: "Av. Paulista"). Elas precisam de coordenadas geográficas exatas: Latitude (Lat) e Longitude (Lon).
+
+Como a sua API de CEP retorna apenas o nome da rua e da cidade, o código cria um texto de endereço:
+`const endereco = "Nome da Rua, Nome da Cidade";`
+
+Esse texto é passado para a função `buscarLatLong(endereco)`.
+Lá dentro, usamos a **API pública do Nominatim** (um serviço gratuito mantido pelo OpenStreetMap) para perguntar: _"Quais são as coordenadas para esse endereço?"_.
+
+```typescript
+const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`;
+this.http.get(url).subscribe(...)
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+A API do Nominatim retorna um array com resultados. Nós pegamos o primeiro resultado, extraímos o `lat` e o `lon`, e estamos prontos para atualizar o mapa!
 
-```bash
-ng generate --help
+## 4. O Componente de Mapa (`Map`)
+
+Lá no seu `cep-search.ts`, nós criamos uma ponte (chamada `ViewChild`) que permite que a tela de Busca "converse" diretamente com o componente filho (o seu Mapa):
+
+```typescript
+@ViewChild(Map) mapComponent!: Map;
 ```
 
-## Building
+Com as coordenadas em mãos, nós damos um comando direto para o mapa:
 
-To build the project run:
-
-```bash
-ng build
+```typescript
+this.mapComponent.atualizarMapa(lat, lon, endereco);
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 5. Renderizando na Tela com o Leaflet (`map.ts`)
 
-## Running unit tests
+Finalmente, o método `atualizarMapa` que você construiu no arquivo `map.ts` entra em ação.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+1. **`this.map.setView([lat, lon], 16)`**: Ele diz para o Leaflet mover a câmera do mapa para aquelas coordenadas com um nível de zoom `16` (bem próximo).
+2. **`this.map.removeLayer(this.marker)`**: Caso já exista um pino vermelho de uma busca anterior, ele apaga.
+3. **`this.marker = L.marker([lat, lon]).addTo(this.map)`**: Ele desenha um novo pino na posição correta.
+4. **`.bindPopup(texto).openPopup()`**: Ele anexa um balão de texto em cima do pino mostrando o endereço que foi buscado!
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+### Resumo do Fluxo:
 
-For end-to-end (e2e) testing, run:
+1. Digita CEP ➔ 2. Chama API (`localhost:8080`) ➔ 3. Pega nome da Rua ➔ 4. Chama API (`Nominatim`) ➔ 5. Pega Lat/Lon ➔ 6. Manda o Mapa pular pra lá!
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+> [!TIP]
+> **Já deixei tudo pronto para você!** Pode acessar a página e testar a busca do CEP. O mapa vai aparecer (adicionei CSS para ele ter altura) e a marcação vai funcionar. Não se esqueça de que o seu servidor backend (`localhost:8080`) precisa estar rodando!

@@ -1,1 +1,24 @@
-<p>cep-search works!</p>
+<app-header></app-header>
+<app-loader [isLoading]="isLoading" [message]="loadingMessage"></app-loader>
+
+<div class="cep-search-container">
+  <h2>Buscar Agência por CEP</h2>
+  
+  <div class="search-box">
+    <input 
+      type="text" 
+      [(ngModel)]="cep" 
+      mask="00000-000" 
+      [dropSpecialCharacters]="false"
+      placeholder="Digite o CEP (Ex: 01001-000)" 
+      (keyup.enter)="pesquisarCep()"
+    />
+    <button (click)="pesquisarCep()" [disabled]="isLoading">Buscar</button>
+  </div>
+
+  <div class="error-container" *ngIf="errorMessage">
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>

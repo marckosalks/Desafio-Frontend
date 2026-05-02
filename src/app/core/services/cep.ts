@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class Cep {
+export class CepService {
   constructor(private http: HttpClient) {}
 
   buscarCep(cep: string) {

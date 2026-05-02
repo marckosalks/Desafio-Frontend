@@ -8,23 +8,37 @@
 .header-content {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
   cursor: pointer;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .logo {
-  width: 30px;
-  height: 30px;
-  background-color: white;
-  border-radius: 50%;
-  display: inline-block;
-  /* Simulação de um logo */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  max-width: 120%;
+  /* Permite um pouco mais de ganho se a imagem tiver bordas */
+  max-height: 120%;
+  object-fit: contain;
+  position: relative;
+  left: -2px;
+  /* Ajuste fino horizontal */
+  top: 1px;
+  /* Ajuste fino vertical */
 }
 
 h1 {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
+  margin-left: -5px;
+  /* Puxa o texto para mais perto, compensando o espaço na imagem */
+  margin-top: 10px;
 }

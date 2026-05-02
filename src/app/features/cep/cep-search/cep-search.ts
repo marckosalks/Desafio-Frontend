@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CepService } from '../../../core/services/cep';
 import { HttpClient } from '@angular/common/http';
@@ -26,6 +26,7 @@ export class CepSearch {
     private cepService: CepService,
     private http: HttpClient,
     private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   pesquisarCep() {
@@ -39,7 +40,7 @@ export class CepSearch {
     }
 
     this.isLoading = true;
-    this.loadingMessage = 'Buscando informações do CEP...';
+    this.loadingMessage = 'Por favor, aguarde.';
 
     this.cepService.buscarCep(this.cep).subscribe({
       next: (res: any) => {
@@ -52,12 +53,18 @@ export class CepSearch {
         } else {
           this.isLoading = false;
           this.errorMessage = 'Endereço não encontrado para este CEP.';
+          this.cdr.detectChanges();
         }
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = 'Erro ao buscar o CEP na nossa base de dados.';
+        if (err.error && err.error.message) {
+          this.errorMessage = err.error.message;
+        } else {
+          this.errorMessage = 'Erro ao buscar o CEP na nossa base de dados.';
+        }
         console.error(err);
+        this.cdr.detectChanges();
       },
     });
   }
@@ -80,12 +87,14 @@ export class CepSearch {
           });
         } else {
           this.errorMessage = 'Não foi possível encontrar as coordenadas para esse endereço.';
+          this.cdr.detectChanges();
         }
       },
       error: (err) => {
         this.isLoading = false;
         this.errorMessage = 'Erro ao buscar localização no mapa.';
         console.error(err);
+        this.cdr.detectChanges();
       },
     });
   }

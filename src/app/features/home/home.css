@@ -4,7 +4,6 @@
   align-items: center;
   min-height: calc(100vh - 60px);
   background-color: #F4F4F4;
-  font-family: 'Open Sans', Arial, sans-serif;
   padding: 20px;
 }
 
@@ -16,7 +15,7 @@
   background-color: #FFFFFF;
   padding: 50px;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   max-width: 1000px;
   width: 100%;
   gap: 40px;
@@ -54,7 +53,7 @@
 }
 
 .btn-primary {
-  background-color: #EC0000;
+  background-color: #D80200;
   color: white;
   border: none;
   padding: 16px 36px;
@@ -81,4 +80,3 @@
     padding: 30px;
   }
 }
-

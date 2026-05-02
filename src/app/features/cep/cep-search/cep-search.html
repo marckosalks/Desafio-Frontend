@@ -16,7 +16,9 @@
     <button (click)="pesquisarCep()" [disabled]="isLoading">Buscar</button>
   </div>
 
-  <div class="error-message" *ngIf="errorMessage">
-    {{ errorMessage }}
+  <div class="error-container" *ngIf="errorMessage">
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
   </div>
 </div>

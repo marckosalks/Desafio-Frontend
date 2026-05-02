@@ -2,7 +2,6 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  font-family: sans-serif;
 }
 
 .result-header {
@@ -22,7 +21,7 @@
 .btn-voltar {
   background: none;
   border: none;
-  color: #ec0000;
+  color: #D80200;
   font-weight: bold;
   cursor: pointer;
   padding: 0;
@@ -39,6 +38,6 @@
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
 }

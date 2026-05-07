@@ -1,6 +1,6 @@
 # Entendendo o Fluxo do Mapa (Ponta a Ponta)
 
-Aqui está a análise completa e detalhada de como a sua funcionalidade de busca de CEP com renderização no mapa está estruturada e como ela funciona "debaixo dos panos".
+como a aplicação funciona "debaixo dos panos".
 
 > [!NOTE]
 > Essa funcionalidade integra o seu frontend em Angular com uma API própria (que busca CEP) e uma API de mapas aberta (Nominatim + Leaflet).

@@ -12,7 +12,7 @@ import { Map } from '../../../shared/map/map';
 })
 export class MapResultComponent implements OnInit {
   @ViewChild(Map) mapComponent!: Map;
-  
+
   lat: number = 0;
   lon: number = 0;
   endereco: string = '';
@@ -20,7 +20,7 @@ export class MapResultComponent implements OnInit {
   constructor(private router: Router) {
     const nav = this.router.getCurrentNavigation();
     const state = nav?.extras.state as { lat: number, lon: number, endereco: string };
-    
+
     if (state) {
       this.lat = state.lat;
       this.lon = state.lon;
@@ -37,13 +37,13 @@ export class MapResultComponent implements OnInit {
 
   ngAfterViewInit() {
     if (this.lat && this.lon && this.mapComponent) {
-      // Simular uma agência Santander 20 metros de distância (aprox 0.0002 graus)
+      // Simular uma agência 20 metros de distância (aprox 0.0002 graus)
       const latAgencia = this.lat + 0.0002;
       const lonAgencia = this.lon + 0.0002;
 
       const pinos = [
-        { lat: this.lat, lon: this.lon, texto: `Seu CEP: ${this.endereco}`, isSantander: false },
-        { lat: latAgencia, lon: lonAgencia, texto: 'Agência Santander Mais Próxima', isSantander: true }
+        { lat: this.lat, lon: this.lon, texto: `Seu CEP: ${this.endereco}`, isAgencia: false },
+        { lat: latAgencia, lon: lonAgencia, texto: 'Agência Mais Próxima', isAgencia: true }
       ];
 
       this.mapComponent.renderizarPinos(pinos);

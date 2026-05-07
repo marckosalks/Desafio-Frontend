@@ -31,7 +31,7 @@ h2 {
 .search-box button {
   padding: 15px 30px;
   font-size: 16px;
-  background-color: #D80200;
+  background-color: #1b2432;
   color: white;
   font-weight: bold;
   border: none;
@@ -40,7 +40,7 @@ h2 {
 }
 
 .search-box button:hover:not([disabled]) {
-  background-color: #cc0000;
+  background-color: #1b2432;
 }
 
 .search-box button[disabled] {

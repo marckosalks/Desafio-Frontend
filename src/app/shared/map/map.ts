@@ -10,7 +10,7 @@ const iconDefault = L.icon({
 L.Marker.prototype.options.icon = iconDefault;
 
 const iconSantander = L.icon({
-  iconUrl: 'assets/agencia.png',
+  iconUrl: 'assets/logo-eua-vermelho.png',
   iconSize: [45, 45],
   iconAnchor: [22, 45],
   popupAnchor: [0, -45],
@@ -48,7 +48,7 @@ export class Map implements AfterViewInit {
     });
   }
 
-  renderizarPinos(pinos: { lat: number, lon: number, texto: string, isSantander: boolean }[]) {
+  renderizarPinos(pinos: { lat: number, lon: number, texto: string, isAgencia: boolean }[]) {
     // Remove os marcadores antigos
     this.markers.forEach(m => this.map.removeLayer(m));
     this.markers = [];
@@ -59,14 +59,14 @@ export class Map implements AfterViewInit {
     this.map.setView([pinos[0].lat, pinos[0].lon], 18);
 
     pinos.forEach(pino => {
-      const iconToUse = pino.isSantander ? iconSantander : iconDefault;
-      
+      const iconToUse = pino.isAgencia ? iconSantander : iconDefault;
+
       const newMarker = L.marker([pino.lat, pino.lon], { icon: iconToUse })
         .addTo(this.map)
         .bindPopup(pino.texto);
-        
+
       // Se for o primeiro (seu endereço), abre o popup automaticamente
-      if (!pino.isSantander) {
+      if (!pino.isAgencia) {
         newMarker.openPopup();
       }
 
